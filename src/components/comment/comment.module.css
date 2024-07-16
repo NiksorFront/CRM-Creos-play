@@ -1,0 +1,29 @@
+.commet__wrapper{
+    max-width: clamp(275px, 50vw, 750px);
+    aspect-ratio: 5 / 1;
+    margin: 20px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+
+    border: 1px rgb(23, 174, 96) solid;
+    border-radius: 2vw;
+
+    text-align: left;
+
+}
+
+.commet__title{
+    font-size: 27px;
+}
+
+.commet__text{
+    font-size: 15px;
+}
+
+.commet__paragraph{
+    max-width: 60%;
+}

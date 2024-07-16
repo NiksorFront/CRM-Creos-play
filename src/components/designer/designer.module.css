@@ -1,0 +1,40 @@
+.designer__wrapper{
+    max-width: clamp(275px, 50vw, 750px);
+    aspect-ratio: 5 / 1;
+    margin: 20px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+
+    border: 1px rgb(23, 174, 96) solid;
+    border-radius: 2vw;
+
+    text-align: left;
+
+}
+
+.designer__ava{
+    display: flex;
+    margin: 0 5%;
+
+    gap: 20px;
+
+    align-items: center;
+}
+
+.designer__title{
+    font-size: 27px;
+}
+
+.designer__text{
+    font-size: 15px;
+}
+
+.designer__paragraph{
+    max-width: 40%;
+    margin: 0 5%;
+    font-size: 150%;
+}

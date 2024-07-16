@@ -1,5 +1,7 @@
 @import url("normalize.css");
 @import url("./components/header/header.module.css");
+@import url("./components/comment/comment.module.css");
+@import url("./components/designer/designer.module.css");
 
 @tailwind base;
 @tailwind components;
@@ -16,8 +18,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.root{
-  max-width: none !important;
-  margin: 0 !important;
-  padding: 0 ;
+#root{
+  padding: 2rem;
 }
