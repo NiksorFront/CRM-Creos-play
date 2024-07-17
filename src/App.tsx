@@ -7,6 +7,8 @@ import {commentType, issueType, designerType} from "./utils/types";
 import Comment from "./components/comment/comment";
 import Designer from './components/designer/designer';
 
+type DesignerType = [string, Array<number>]
+
 function App() {
   const [language, setLanguage] = useState("Русский");
   const [comments, setComments] = useState<Array<commentType>>([]);
@@ -25,7 +27,9 @@ function App() {
     console.log(comments, issues, desingers)
   }, [])
 
-  /*const sortTopDesigners = () => {
+  const sortTopDesigners = (count: number) => {
+    /*Создаём объект с дизайнерами, где к каждому привязан массив с временем выполнения каждой из задач, что у него были*/
+    let namesDsgnrs: {[key: string]: Array<number>} = {}
     issues.forEach(issue => {
       if(issue.status === "Done"){
         const finishDate = issue.date_finished_by_designer.split('T');
@@ -36,10 +40,42 @@ function App() {
                       time: startDate[1].slice(0,8).split(':')};
 
         const millisenods = new Date(finish.date[0], finish.date[1], finish.date[2], finish.time[0], finish.time[1], finish.time[2]) - new Date(start.date[0], start.date[1], start.date[2], start.time[0], start.time[1], start.time[2]);
+        
+        if (namesDsgnrs.hasOwnProperty(issue.designer)){  //Если ключ надён
+          Object.keys(namesDsgnrs).forEach(key => {if(key === issue.designer){namesDsgnrs[key] = [...namesDsgnrs[key], millisenods]}}) //Добавляем к его списку новые millisenods
+        }else{
+          Object.assign(namesDsgnrs, {[issue.designer]: [millisenods]}); //Создаём как новый
+        }
       }
     })
-    // console.log(top)
-  }*/
+
+    /*Создаём объект с дизайнерами, к которым привязаны массивы с средним времени потраченным на каждую его задачу и числом задач*/
+    let timeTasks: {[key: string]: Array<number>} = {};
+    Object.keys(namesDsgnrs).forEach(dsgnr => {
+      const times: Array<string> = namesDsgnrs[dsgnr];
+      let sumMillisenod = 0; 
+      let numTasks = 0;
+      for (numTasks; numTasks < times.length; numTasks++){
+          sumMillisenod += parseInt(times[numTasks])
+      }
+      Object.assign(timeTasks, {[dsgnr]: [sumMillisenod/numTasks, numTasks]})
+      //const sumMillisenod = namesDsgnrs[dsgnr].reduce((a, b, i) => {numberTasks+=i; return(ParseInt(a) + ParseInt(b))}, 0);
+      //Object.assign(timeTasks, {[dsgnr]: [namesDsgnrs[dsgnr]]})
+
+    });
+    
+    /*Создаём топ 10 самых быстрых и эффективных дизайнеров*/
+    const top = Object.entries(timeTasks).sort((a, b) => { //Запрос к YaGPT, который написал этот код: Есть объект с дизайнерами, где к каждому привязан массив внутри которого указано среднее время выполнения задачи и число выполненных задач. Пример: const designers = { designer1: [5, 20], designer2: [3, 15], ... }; Напиши код на JavaScript, который отсортирует этот объект, так, чтобы за меньшее время было выполнено максимальное число задач.
+        if (a[1][1] === b[1][1]) {
+          return a[1][0] - b[1][0];
+        } else {
+          return b[1][1] - a[1][1];
+        }                      
+    });
+
+    return top.slice(0,count);
+  }
+  
 
   return (
     <>
@@ -51,8 +87,8 @@ function App() {
         </section>
         <section className='column'>
           <h1 className='title'>10 дизайнеров</h1> 
-          {issues.map((isu: issueType, i) => {
-            return <Designer key={i} username={isu.designer} time={'1'} issue={'12'}/>
+          {issues && sortTopDesigners(10).map((designer: DesignerType, i) => {
+            return <Designer key={i} username={designer[0]} averageTime={designer[1][0]} numIssue={designer[1][1]}/>
             })}
         </section>
       </main>
@@ -62,15 +98,3 @@ function App() {
 }
 
 export default App
-
-//let top = {one: [0, 0], two: [0, 0], three: [0, 0], four: [0, 0], five: [0, 0], six: [0, 0], seven: [0, 0], eight: [0, 0], nine: [0, 0], ten: [0, 0]}
-// millisenods > top.ten[0]   ? top.ten   = [millisenods, issue.id] :
-//         millisenods > top.nine[0]  ? top.nine  = [millisenods, issue.id] :
-//         millisenods > top.eight[0] ? top.eight = [millisenods, issue.id] :
-//         millisenods > top.seven[0] ? top.seven = [millisenods, issue.id] :
-//         millisenods > top.six[0]   ? top.six   = [millisenods, issue.id] :
-//         millisenods > top.five[0]  ? top.five  = [millisenods, issue.id] :
-//         millisenods > top.four[0]  ? top.four  = [millisenods, issue.id] :
-//         millisenods > top.three[0] ? top.three = [millisenods, issue.id] :
-//         millisenods > top.two[0]   ? top.two   = [millisenods, issue.id] :
-//         millisenods > top.one[0]  && (top.one  = [millisenods, issue.id])
