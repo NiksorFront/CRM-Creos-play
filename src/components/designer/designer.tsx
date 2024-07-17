@@ -1,5 +1,4 @@
 import { Avatar } from "@nextui-org/react"
-import { designerType } from "../../utils/types"
 
 export default function Designer({username, averageTime, numIssue}:{username:string, averageTime:number, numIssue:number}){
     //Когда подкючим редакс найти аву по имени

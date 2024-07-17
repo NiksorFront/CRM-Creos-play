@@ -1,6 +1,5 @@
 import { Avatar } from "@nextui-org/react";
 import {commentType} from "../../utils/types";
-import moment from "moment";
 import { useEffect, useState } from "react";
 
 export default function Comment({comment}:{comment: [string, commentType]}){
@@ -10,7 +9,7 @@ export default function Comment({comment}:{comment: [string, commentType]}){
     const [hourAgo, setHoutAgo] = useState("");
 
     const time = parseInt(comment[0])/1000; //Время с публиикации в секундах
-    console.log(time)
+    // console.log(time)
     useEffect(() => {
         (time > 86400) ? setHoutAgo(`${Math.floor(((time/60)/60)/24)} дней назад`): //Больше дня 
         (time > 3600) ? setHoutAgo(`${Math.floor((time/60)/60)} часов назад`): //Больше часа

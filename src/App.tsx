@@ -6,6 +6,8 @@ import request from './utils/API';
 import {commentType, issueType, designerType} from "./utils/types";
 import Comment from "./components/comment/comment";
 import Designer from './components/designer/designer';
+import { Button } from '@nextui-org/react';
+import { Link } from 'react-router-dom';
 
 type DesignerType = [string, Array<number>]
 
@@ -24,7 +26,7 @@ function App() {
     request('issue/').then(res => setIssues(res))
                       .catch(err => console.log(err));
 
-    console.log(comments, issues, desingers)
+    // console.log(comments, issues, desingers)
   }, [])
 
   function sorting(object:object):[string, any][]{
@@ -108,6 +110,9 @@ function App() {
         </section>
       </main>
       <Footer/>
+      <Link to={{pathname: '/tasks'}} className="surface-button">
+        <Button size="lg" className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg">Страница задач</Button>
+      </Link>
     </>
   )
 }
