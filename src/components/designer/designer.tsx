@@ -5,8 +5,7 @@ export default function Designer({username, averageTime, numIssue}:{username:str
     //Когда подкючим редакс найти аву по имени
 
 
-    //Если через %, то оно почему-то иногда 0 высчитывает в итоге
-    const hours = (((averageTime / 1000) / 60) / 60).toString().split('.')[0]
+    const hours = Math.floor(((averageTime / 1000) / 60) / 60)
 
     return(<div className="designer__wrapper">
         <div className="designer__ava">
