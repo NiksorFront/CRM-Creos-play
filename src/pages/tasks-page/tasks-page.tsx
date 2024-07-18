@@ -1,5 +1,5 @@
 import { Button, Pagination } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import request from "../../utils/API";
 import { issueType } from "../../utils/types";
@@ -7,6 +7,7 @@ import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer, BarChart, Bar } from
 import numberWorkingWeek from "../../utils/workingWeek";
 import MonthlyChart from "../../components/monthly-chart/monthly-chart";
 import {weekType} from "../../utils/types";
+import { color } from "framer-motion";
 
 export default function TasksPage(){
     const [issues, setIssues] = useState<Array<issueType>>([]);
@@ -14,36 +15,13 @@ export default function TasksPage(){
     const [months, setMonths] = useState<Array<weekType>>();
     const [displayedWeeks, setDisplayedWeeks] = useState<number>(8);
     const workingWeek = numberWorkingWeek();
-
-    // const data = [
-    //     { name: 'Geeksforgeeks', students: 600 },
-    //     { name: 'Technical scripter', students: 600 },
-    //     { name: 'Geek-i-knack', students: 600 },
-    // ];
+    const pieElement = createRef<HTMLDivElement>();
+    const [pieWidHeig, setPieWidHeig] = useState<number>();
+    const [pieData, setPieData] = useState<Array<{name: string, quantity: number}>>([{ name: 'Загрузка...', quantity: 0 }, { name: 'Загрузка...', quantity: 0 }, { name: 'Загрузка...', quantity: 0 },]);
     //console.log(months, issues, issueClosed);
 
-    const data = [
-        {
-          name: 'Page E',
-          uv: 1890,
-          pv: 4800,
-          amt: 2181,
-        },
-        {
-          name: 'Page F',
-          uv: 2390,
-          pv: 3800,
-          amt: 2500,
-        },
-        {
-          name: 'Page G',
-          uv: 3490,
-          pv: 4300,
-          amt: 2100,
-        },
-      ];
 
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+    const COLORS = ['#3ed886', '#d8c43e', '#3ebdd8'];
 
 
     useEffect(() => {
@@ -52,11 +30,26 @@ export default function TasksPage(){
                              .catch(err => console.log(err));
         }else{
             taskInListMonths();
+            sortIssueByReadliness();
         }
-
+        setPieWidHeig(pieElement.current!.clientWidth);
     }, [displayedWeeks, issues])
 
-    useEffect(() => setIssueClosed(issues.filter(issue => issue.status === "Done" && issue)), [issues]) //Записываем только выполненные задачи)
+    useEffect(() => {
+        setIssueClosed(issues.filter(issue => issue.status === "Done" && issue));
+
+    }, [issues]) //Записываем только выполненные задачи)
+
+    function sortIssueByReadliness(){
+        let done = 0; let inProgress = 0; let new_ = 0;
+        issues.forEach(issue => {
+            (issue.status === 'Done')        ? done+=1 :
+            (issue.status === 'In Progress') ? inProgress+=1 : new_+=1
+        })
+        setPieData([{ name: 'Done', quantity: done },
+                    { name: 'In Progress', quantity: inProgress },
+                    { name: 'New', quantity: new_ }]);
+    }
 
     function sortIssueOnWeeks(){
         /*Создаём столько ключей-недель, сколько заданно в numberWeeks*/
@@ -127,22 +120,34 @@ export default function TasksPage(){
             <Pagination color="success" total={workingWeek} page={displayedWeeks} onChange={setDisplayedWeeks}/>
         </div>
         <div className="charts-collection">
-            {months && months.map(month => <MonthlyChart month={month} />)}
+            <div className="explanation">
+                <p style={{color:'#3ed886'}}>received</p>
+                <p style={{color:'#e45353'}}>expeness</p>
+                <p style={{color:'#b9e453'}}>earned</p>
+            </div>
+            {months && months.map((month, i) => <MonthlyChart key={i} month={month} />)}
         </div>
-        {/*<PieChart width={700} height={700}>
-            <Pie
-                data={data}
-                dataKey="students"
-                outerRadius={250}
-                fill="green"
-                style={{ cursor: 'pointer', outline: 'none' }}
-            >
-                {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-            </Pie>
-            <Tooltip />
-        </PieChart>*/}
+        {pieData &&<div ref={pieElement} className="pie-chart">
+            <div className="explanation">
+                <p style={{color:COLORS[0]}}>{pieData[0].name}</p>
+                <p style={{color:COLORS[1]}}>{pieData[1].name}</p>
+                <p style={{color:COLORS[2]}}>{pieData[2].name}</p>
+            </div>
+            <PieChart width={pieWidHeig} height={pieWidHeig}>
+                    <Pie
+                        data={pieData}
+                        dataKey="quantity"
+                        outerRadius={pieWidHeig/2.5}
+                        fill="green"
+                        label={{ fill: 'gray', fontSize: 30 }}
+                    >
+                        {pieData.map((entry, i) => (
+                            <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                        ))}
+                    </Pie>
+                    <Tooltip />
+            </PieChart>
+        </div>}
         <Link to={{pathname: '/'}} className="surface-button">
             <Button size="lg" className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg">Главная страница</Button>
         </Link>
