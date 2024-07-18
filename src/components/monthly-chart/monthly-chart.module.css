@@ -1,0 +1,7 @@
+.chart{
+    width: clamp(320px, 25vw, 500px);
+    height: clamp(250px, 35vh, 375px);
+
+    margin: 3% 0;
+    text-align: center;
+}

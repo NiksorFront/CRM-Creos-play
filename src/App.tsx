@@ -45,7 +45,7 @@ function App() {
       const dateCreated = comment.date_created.split("T");
       const dateTime = {date: dateCreated[0].split("-"),
                         time: dateCreated[1].slice(0,8).split(':')}
-      //Возможно у меня какой-то баг, но короче месяцы начинаются с нуля, а не еденицы, поэтому надо -1 всегда писать.               
+      //Возможно у меня какой-то баг, но короче месяцы начинаются с нуля, а не еденицы, поэтому везде в new Date() пишу -1 у месяца.               
       const millisenods = new Date() - new Date(dateTime.date[0], dateTime.date[1]-1, dateTime.date[2], dateTime.time[0], dateTime.time[1], dateTime.time[2]);
       Object.assign(whenCommentsAreLeft, {[millisenods]: comment})
     })

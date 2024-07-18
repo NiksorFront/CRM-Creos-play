@@ -2,6 +2,10 @@
 @import url("./components/header/header.module.css");
 @import url("./components/comment/comment.module.css");
 @import url("./components/designer/designer.module.css");
+@import url("./components/monthly-chart/monthly-chart.module.css");
+
+@import url("./pages/tasks-page/tasks-page.module.css");
+@import url("./pages/designer-page/designer-page.module.css");
 
 @tailwind base;
 @tailwind components;

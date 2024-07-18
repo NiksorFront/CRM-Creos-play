@@ -3,17 +3,12 @@ import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
 import {MoonIcon} from "./MoonIcon";
 import {SunIcon} from "./SunIcon";
+import numberWorkingWeek from "../../utils/workingWeek";
 
 export default function Header(){
     // const [mounted, setMounted] = useState(false);
-    const [workingWeek, setWorkingWeek] = useState();
     const [language, setLanguage] = useState("Русский");
-    const {theme, setTheme} = useTheme("dark");
-
-    useEffect(() => {
-        const date = new Date() - new Date(new Date().getFullYear(), '00', '01', '11', '00', '00');
-        setWorkingWeek(Math.ceil(date/1000/60/60/24/7));
-    }, [])
+    const {theme, setTheme} = useTheme();
 
     // if(!mounted) return null
 
@@ -22,7 +17,7 @@ export default function Header(){
             {language}
         </Button> 
 
-        <p className="text">{language ==="Русский" ? `${workingWeek} Рабочая неделя` : `${workingWeek} Working week`}</p>
+        <p className="text">{language ==="Русский" ? `${numberWorkingWeek()} Рабочая неделя` : `${numberWorkingWeek()} Working week`}</p>
 
         <Switch
             defaultSelected

@@ -27,3 +27,5 @@ export type issueType ={date_created: string,
                         send_to_project_manager: number,
                         status: string,
                         summary: string}
+
+export type weekType = {[key: number]: {received: number, expeness: number, earned: number}};
