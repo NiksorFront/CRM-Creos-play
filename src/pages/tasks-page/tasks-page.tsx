@@ -20,7 +20,7 @@ export default function TasksPage(){
     //     { name: 'Technical scripter', students: 600 },
     //     { name: 'Geek-i-knack', students: 600 },
     // ];
-    console.log(months, issues, issueClosed);
+    //console.log(months, issues, issueClosed);
 
     const data = [
         {
@@ -91,17 +91,23 @@ export default function TasksPage(){
 
     function taskInListMonths(){
         const allWeek = sortIssueOnWeeks();
-
-        const initialWeek = workingWeek - Object.keys(allWeek).length;
+        const numWeek = Object.keys(allWeek).length;
+        const initialWeek = workingWeek - numWeek;
         const empty = {received: 0, expeness: 0, earned: 0};
+
         //Добавляем недостоющих недель в начало
+        (numWeek%4 === 1)  ? Object.assign(allWeek, {...allWeek, [initialWeek]: empty, [initialWeek-1]: empty, [initialWeek-2]: empty}) :
+        (numWeek%4 === 2)  ? Object.assign(allWeek, {...allWeek, [initialWeek]: empty, [initialWeek-1]: empty}) :
+        (numWeek%4 === 3) && Object.assign(allWeek, {...allWeek, [initialWeek]: empty});
+        
+        /*//Добавляем недостоющих недель в начало
         (initialWeek%4 === 3)  ? Object.assign(allWeek, {...allWeek, [initialWeek-1]: empty, [initialWeek-2]: empty, [initialWeek-3]: empty}) :
         (initialWeek%4 === 2)  ? Object.assign(allWeek, {...allWeek, [initialWeek-1]: empty, [initialWeek-2]: empty}) :
         (initialWeek%4 === 1) && Object.assign(allWeek, {...allWeek, [initialWeek-1]: empty});
         //Добавляем недостоющих недель в конце
         (workingWeek%4 === 1)  ? Object.assign(allWeek, {...allWeek, [workingWeek+1]: empty, [workingWeek+2]: empty, [workingWeek+3]: empty}) :
         (workingWeek%4 === 2)  ? Object.assign(allWeek, {...allWeek, [workingWeek+1]: empty, [workingWeek+2]: empty}) :
-        (workingWeek%4 === 3) && Object.assign(allWeek, {...allWeek, [workingWeek+1]: empty});
+        (workingWeek%4 === 3) && Object.assign(allWeek, {...allWeek, [workingWeek+1]: empty});*/
 
         const allMonth:weekType[] = [];
         let one = "null"; let two = "null"; let three = "null";

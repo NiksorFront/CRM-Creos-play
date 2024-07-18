@@ -16,7 +16,7 @@ export default function MonthlyChart({month}:{month:weekType}){
     // console.log(whatMonth(1,"Русский"));
 
     return(<section className="chart">
-      <p>{whatMonth(parseInt(data[0].number),"Русский")}</p>{/*Кривенько работает, надо пофиксить короч, дэм*/}
+      <p>{`${whatMonth(parseInt(data[0].number),"Русский")} - ${whatMonth(parseInt(data[3].number),"Русский")}`}</p>{/*Кривенько работает, надо пофиксить короч, дэм*/}
       <ResponsiveContainer>
           <BarChart data={data} >
             <XAxis dataKey="number" />
