@@ -79,7 +79,7 @@ function App() {
     /*Создаём объект с дизайнерами, к которым привязаны массивы с средним времени потраченным на каждую его задачу и числом задач*/
     let timeTasks: {[key: string]: Array<number>} = {};
     Object.keys(namesDsgnrs).forEach(dsgnr => {
-      const times: Array<string> = namesDsgnrs[dsgnr];
+      const times: Array<number> = namesDsgnrs[dsgnr];
       let sumMillisenod = 0; 
       let numTasks = 0;
       for (numTasks; numTasks < times.length; numTasks++){
@@ -112,6 +112,9 @@ function App() {
       <Footer/>
       <Link to={{pathname: '/tasks'}} className="surface-button">
         <Button size="lg" className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg">Страница задач</Button>
+      </Link>
+      <Link to={{pathname: '/designer'}} className="surface-button-2">
+        <Button size="lg" className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg">Страница дизайнеров</Button>
       </Link>
     </>
   )

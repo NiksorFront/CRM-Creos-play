@@ -27,7 +27,15 @@
 }
 
 .surface-button{
+  max-width: 30vw;
   position: fixed;
   bottom: 50px;
   right: 50px;
+}
+
+.surface-button-2{
+  max-width: 35vw;
+  position: fixed;
+  bottom: 50px;
+  right: 250px;
 }
