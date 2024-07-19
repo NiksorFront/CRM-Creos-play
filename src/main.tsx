@@ -17,10 +17,13 @@ const router = createBrowserRouter([
   },
   {
     path:"/designer", element: <DesignerPage/>
+  },
+  {
+    path:"*", element: <p>Ошибка</p>
   }
 ])
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.querySelector('#root')!).render(
   <React.StrictMode>
     <NextUIProvider>
       <ThemeProvider attribute="class" defaultTheme="dark">

@@ -3,7 +3,7 @@ import './App.css'
 import Header from './components/header/header';
 import Footer from './components/footer/footer';
 import request from './utils/API';
-import {commentType, issueType, designerType} from "./utils/types";
+import {commentType, issueType} from "./utils/types";
 import Comment from "./components/comment/comment";
 import Designer from './components/designer/designer';
 import { Button } from '@nextui-org/react';
@@ -12,9 +12,9 @@ import { Link } from 'react-router-dom';
 type DesignerType = [string, Array<number>]
 
 function App() {
-  const [language, setLanguage] = useState("Русский");
+  //const [language, setLanguage] = useState("Русский");
   const [comments, setComments] = useState<Array<commentType>>([]);
-  const [desingers, setDesingers] = useState<Array<designerType>>([]);
+  //const [desingers, setDesingers] = useState<Array<designerType>>([]);
   const [issues, setIssues] = useState<Array<issueType>>([]);
 
   useEffect(() => {
@@ -46,6 +46,7 @@ function App() {
       const dateTime = {date: dateCreated[0].split("-"),
                         time: dateCreated[1].slice(0,8).split(':')}
       //Возможно у меня какой-то баг, но короче месяцы начинаются с нуля, а не еденицы, поэтому везде в new Date() пишу -1 у месяца.               
+      //@ts-ignore
       const millisenods = new Date() - new Date(dateTime.date[0], dateTime.date[1]-1, dateTime.date[2], dateTime.time[0], dateTime.time[1], dateTime.time[2]);
       Object.assign(whenCommentsAreLeft, {[millisenods]: comment})
     })
@@ -65,7 +66,7 @@ function App() {
         const startDate = issue.date_started_by_designer.split('T');
         const start = {date: startDate[0].split('-'), 
                       time: startDate[1].slice(0,8).split(':')};
-
+        //@ts-ignore
         const millisenods = new Date(finish.date[0], finish.date[1]-1, finish.date[2], finish.time[0], finish.time[1], finish.time[2]) - new Date(start.date[0], start.date[1]-1, start.date[2], start.time[0], start.time[1], start.time[2]);
         
         if (namesDsgnrs.hasOwnProperty(issue.designer)){  //Если ключ надён
@@ -83,6 +84,7 @@ function App() {
       let sumMillisenod = 0; 
       let numTasks = 0;
       for (numTasks; numTasks < times.length; numTasks++){
+          //@ts-ignore
           sumMillisenod += parseInt(times[numTasks])
       }
       Object.assign(timeTasks, {[dsgnr]: [sumMillisenod/numTasks, numTasks]})

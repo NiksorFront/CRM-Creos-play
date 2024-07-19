@@ -1,13 +1,12 @@
 import { Button, Pagination } from "@nextui-org/react";
-import { createRef, useEffect, useRef, useState } from "react";
+import { createRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import request from "../../utils/API";
 import { issueType } from "../../utils/types";
-import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { PieChart, Pie, Tooltip, Cell,} from 'recharts';
 import numberWorkingWeek from "../../utils/workingWeek";
 import MonthlyChart from "../../components/monthly-chart/monthly-chart";
 import {weekType} from "../../utils/types";
-import { color } from "framer-motion";
 
 export default function TasksPage(){
     const [issues, setIssues] = useState<Array<issueType>>([]);
@@ -53,26 +52,27 @@ export default function TasksPage(){
 
     function sortIssueOnWeeks(){
         /*Создаём столько ключей-недель, сколько заданно в numberWeeks*/
-        const weeks = {}
+        const weeks: {[i: number]: {received: number, expeness: number, earned: number}} = {}
         for (let i = workingWeek-displayedWeeks+1; i <= workingWeek; i++){
             Object.assign(weeks, {[i]: {received: 0, expeness: 0, earned: 0}} )  
         }
-        /*Перебираем issueClosed и записваем итог в каждую из недель*/
+        /*Перебираем issueClosed и записваем итог в каждую из недель*/ //@ts-ignore
         const baseDate = new Date(new Date().getFullYear(), '00', '01', '11', '00', '00');
         issueClosed.forEach(issue => {
             const finishDate = issue.date_finished.split('T');
             const finish = {date: finishDate[0].split('-'), 
                             time: finishDate[1].slice(0,8).split(':')};
+            //@ts-ignore                
             const date = new Date(finish.date[0], finish.date[1]-1, finish.date[2], finish.time[0], finish.time[1], finish.time[2]) - baseDate;
             const numWeek = Math.ceil(date/1000/60/60/24/7).toString(); //Номер недели когда был завершён проект
             if(parseInt(numWeek) > workingWeek-displayedWeeks){ //Записываем только последие numberWeeks недели. Пример: Если numWeek=17 workingWeek=20 displayedWeeks=4, то numWeek подходит, т.к. 17 > 16   
                 const send = issue.send_to_account_manager + issue.send_to_designer + issue.send_to_project_manager;
                 Object.keys(weeks).forEach(week => {
                     if(week === numWeek){
-                        weeks[week] = {received: weeks[week].received + issue.received_from_client,
-                                       expeness: weeks[week].expeness + send,
-                                       earned: weeks[week].earned + issue.received_from_client - send
-                                    }
+                        weeks[parseInt(week)] = {received: weeks[parseInt(week)].received + issue.received_from_client,
+                                                 expeness: weeks[parseInt(week)].expeness + send,
+                                                 earned: weeks[parseInt(week)].earned + issue.received_from_client - send
+                                                }
                     }
                 })
             }
@@ -109,7 +109,7 @@ export default function TasksPage(){
                 (i === 0) ? one = key :
                 (i === 1) ? two = key :
                 (i === 2) ? three = key :
-                allMonth.push({[one]: allWeek[one], [two]: allWeek[two], [three]: allWeek[three], [key]: allWeek[key]});
+                allMonth.push({[one]: allWeek[parseInt(one)], [two]: allWeek[parseInt(two)], [three]: allWeek[parseInt(three)], [key]: allWeek[parseInt(key)]});
         })
         setMonths(allMonth.reverse());
     }
@@ -137,12 +137,12 @@ export default function TasksPage(){
                     <Pie
                         data={pieData}
                         dataKey="quantity"
-                        outerRadius={pieWidHeig/2.5}
+                        outerRadius={pieWidHeig!/2.5}
                         fill="green"
                         label={{ fill: 'gray', fontSize: 30 }}
                     >
                         {pieData.map((entry, i) => (
-                            <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                            <Cell key={entry.name} fill={COLORS[i % COLORS.length]} />
                         ))}
                     </Pie>
                     <Tooltip />

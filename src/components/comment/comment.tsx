@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 
 export default function Comment({comment}:{comment: [string, commentType]}){
     //Сделать сортировку по времени
-    const [issue, setIssue] = useState('Задача');
-    const [message, setMessage] = useState('Сообщение')
+    const [issue, ] = useState('Задача');
+    const [message, ] = useState('Сообщение')
     const [hourAgo, setHoutAgo] = useState("");
 
     const time = parseInt(comment[0])/1000; //Время с публиикации в секундах

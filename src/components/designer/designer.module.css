@@ -1,5 +1,6 @@
 .designer__wrapper{
     max-width: clamp(275px, 50vw, 750px);
+    height: fit-content;
     aspect-ratio: 5 / 1;
     margin: 20px;
 

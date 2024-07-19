@@ -1,4 +1,4 @@
-import { Bar, BarChart, CartesianGrid, Legend, Rectangle, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import whatMonth from "../../utils/whatMonth";
 import {weekType} from "../../utils/types";
 
@@ -7,9 +7,9 @@ export default function MonthlyChart({month}:{month:weekType}){
     const data: dataType[] = [];
     Object.keys(month).reverse().forEach(week => {
       const chart = {number: week, 
-                     received: month[week].received, 
-                     expeness: month[week].expeness, 
-                     earned: month[week].earned};
+                     received: month[parseInt(week)].received, 
+                     expeness: month[parseInt(week)].expeness, 
+                     earned: month[parseInt(week)].earned};
       data.push(chart);
     })
     

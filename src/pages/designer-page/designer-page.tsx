@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, CardBody, Checkbox, Tab, Tabs } from "@nextui-org/react";
+import { Avatar, Button, Checkbox, Tab, Tabs } from "@nextui-org/react";
 import { Key, useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import request from "../../utils/API";

@@ -1,6 +1,6 @@
 import { Button, Switch } from "@nextui-org/react"
 import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import {MoonIcon} from "./MoonIcon";
 import {SunIcon} from "./SunIcon";
 import numberWorkingWeek from "../../utils/workingWeek";
