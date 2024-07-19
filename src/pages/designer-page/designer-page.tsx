@@ -18,7 +18,7 @@ function Dsgner({adoutDesigner, done, inProgress}: {adoutDesigner: designerType,
 
     return(<section className="dsgner__wrapper">
         <div className="dsgner__ava">
-            <Avatar  name={adoutDesigner.username} size="lg"/>
+            <Avatar src={adoutDesigner.avatar} name={adoutDesigner.username} size="lg"/>
             <div>
                 <h2 className="dsgner__title">{adoutDesigner.username}</h2>
                 <p className="dsgner__text">{adoutDesigner.email}</p>
