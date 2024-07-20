@@ -1,5 +1,5 @@
 # CRM система по ТЗ от Creos play на вакансию джуниор фронтендера
-## **[CRM сайт](https://crm-by-niksor.ru/)**
+## **[CRM сайт - https://crm-by-niksor.ru/](https://crm-by-niksor.ru/)**
 Используемые технолгии: React + TypeScript + Vite + Redux-toolkit + React-router-dom 
 UI билиотеки: Next UI + recharts 
 
