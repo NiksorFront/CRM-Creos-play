@@ -1,7 +1,6 @@
 .designer__wrapper{
     max-width: clamp(275px, 50vw, 750px);
     height: fit-content;
-    aspect-ratio: 5 / 1;
     margin: 20px;
 
     display: flex;
@@ -9,6 +8,7 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-around;
+    position: relative;
 
     border: 1px rgb(23, 174, 96) solid;
     border-radius: 2vw;
@@ -19,7 +19,7 @@
 
 .designer__ava{
     display: flex;
-    margin: 0 5%;
+    margin: 5%;
 
     gap: 20px;
 
@@ -35,7 +35,9 @@
 }
 
 .designer__paragraph{
-    max-width: 40%;
-    margin: 0 5%;
+    display: flex;
+
+    max-width: 41%;
+    margin: 5%;
     font-size: 150%;
 }

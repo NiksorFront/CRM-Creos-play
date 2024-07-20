@@ -1,42 +1,44 @@
 import { Button, Pagination } from "@nextui-org/react";
-import { createRef, useEffect, useState } from "react";
+import { createRef, useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import request from "../../utils/API";
 import { issueType } from "../../utils/types";
 import { PieChart, Pie, Tooltip, Cell,} from 'recharts';
 import numberWorkingWeek from "../../utils/workingWeek";
 import MonthlyChart from "../../components/monthly-chart/monthly-chart";
 import {weekType} from "../../utils/types";
+import { useDispatch, useSelector } from "../../utils/redux-types";
+import { requestIssues } from "../../services/slices/issuesSlice";
 
 export default function TasksPage(){
-    const [issues, setIssues] = useState<Array<issueType>>([]);
+    const dispatch = useDispatch();
+    const issues = useSelector(state => state.issues);
     const [issueClosed, setIssueClosed] = useState<Array<issueType>>([]);
     const [months, setMonths] = useState<Array<weekType>>();
-    const [displayedWeeks, setDisplayedWeeks] = useState<number>(8);
+    const [displayedWeeks, setDisplayedWeeks] = useState<number>(7);
     const workingWeek = numberWorkingWeek();
     const pieElement = createRef<HTMLDivElement>();
     const [pieWidHeig, setPieWidHeig] = useState<number>();
     const [pieData, setPieData] = useState<Array<{name: string, quantity: number}>>([{ name: 'Загрузка...', quantity: 0 }, { name: 'Загрузка...', quantity: 0 }, { name: 'Загрузка...', quantity: 0 },]);
-    //console.log(months, issues, issueClosed);
-
+    const [, updateState] = useState<Object>();
+    const forceUpdate = useCallback(() => updateState({}), []);
 
     const COLORS = ['#3ed886', '#d8c43e', '#3ebdd8'];
 
+    useEffect(() => {
+        dispatch(requestIssues());
+        setPieWidHeig(pieElement.current!.clientWidth);
+    }, []);
 
     useEffect(() => {
-        if (issues[0] === undefined) {
-            request('issue/').then(res => setIssues(res))
-                             .catch(err => console.log(err));
-        }else{
-            taskInListMonths();
-            sortIssueByReadliness();
-        }
-        setPieWidHeig(pieElement.current!.clientWidth);
-    }, [displayedWeeks, issues])
+        taskInListMonths();
+        sortIssueByReadliness();
+    }, [displayedWeeks, pieWidHeig])
 
     useEffect(() => {
         setIssueClosed(issues.filter(issue => issue.status === "Done" && issue));
-
+        setTimeout(() => {
+            setDisplayedWeeks(8); //Чтобы перезагрузить, чтобы графики образились, т.к. 'recharts' лагучая 
+        }, 1250);
     }, [issues]) //Записываем только выполненные задачи)
 
     function sortIssueByReadliness(){
@@ -112,6 +114,9 @@ export default function TasksPage(){
                 allMonth.push({[one]: allWeek[parseInt(one)], [two]: allWeek[parseInt(two)], [three]: allWeek[parseInt(three)], [key]: allWeek[parseInt(key)]});
         })
         setMonths(allMonth.reverse());
+        setTimeout(() => {
+            forceUpdate() //Чтобы перезагрузить, чтобы графики образились, т.к. 'recharts' лагучая 
+        }, 1000);
     }
 
     return(<main className="charts-page">
@@ -119,14 +124,14 @@ export default function TasksPage(){
             <p>Число отбражаемых рабочих недель</p>
             <Pagination color="success" total={workingWeek} page={displayedWeeks} onChange={setDisplayedWeeks}/>
         </div>
-        <div className="charts-collection">
+        {months && <div className="charts-collection">
             <div className="explanation">
                 <p style={{color:'#3ed886'}}>received</p>
                 <p style={{color:'#e45353'}}>expeness</p>
                 <p style={{color:'#b9e453'}}>earned</p>
             </div>
-            {months && months.map((month, i) => <MonthlyChart key={i} month={month} />)}
-        </div>
+            {months.map((month, i) => <MonthlyChart key={i} month={month} />)}
+        </div>}
         {pieData &&<div ref={pieElement} className="pie-chart">
             <div className="explanation">
                 <p style={{color:COLORS[0]}}>{pieData[0].name}</p>

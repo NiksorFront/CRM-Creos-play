@@ -1,33 +1,30 @@
-import { useEffect, useState } from 'react'
+import { useEffect} from 'react'
 import './App.css'
 import Header from './components/header/header';
 import Footer from './components/footer/footer';
-import request from './utils/API';
-import {commentType, issueType} from "./utils/types";
+import {commentType} from "./utils/types";
 import Comment from "./components/comment/comment";
 import Designer from './components/designer/designer';
 import { Button } from '@nextui-org/react';
 import { Link } from 'react-router-dom';
 import { useSelector } from './utils/redux-types';
+import { useDispatch } from 'react-redux';
+import { requestComments } from './services/slices/commentsSlice';
+import { requestIssues } from './services/slices/issuesSlice';
+import { requestDesigners } from './services/slices/designerSlice';
 
 type DesignerType = [string, Array<number>]
 
 function App() {
+  const dispatch = useDispatch();
   const language = useSelector(state => state.language);
-  const [comments, setComments] = useState<Array<commentType>>([]);
-  //const [desingers, setDesingers] = useState<Array<designerType>>([]);
-  const [issues, setIssues] = useState<Array<issueType>>([]);
+  const comments = useSelector(state => state.comments);
+  const issues = useSelector(state => state.issues);
 
   useEffect(() => {
-    //request('issue/') //Для страницы задач
-    request('comment/').then(res => setComments(res))
-                       .catch(err => console.log(err));
-    // request('designer/').then(res => setDesingers(res.results))
-    //                     .catch(err => console.log(err));
-    request('issue/').then(res => setIssues(res))
-                      .catch(err => console.log(err));
-
-    // console.log(comments, issues, desingers)
+    dispatch(requestComments());
+    dispatch(requestIssues());
+    dispatch(requestDesigners()); //Запращиваю тут, чтобы не задудосить сервер при каждом вызове <Designer />
   }, [])
 
   function sorting(object:object):[string, any][]{
