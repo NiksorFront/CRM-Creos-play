@@ -1,30 +1,30 @@
-# React + TypeScript + Vite
+# CRM система по ТЗ от Creos play на вакансию джуниор фронтендера
+## **[CRM сайт](https://crm-by-niksor.ru/)**
+Используемые технолгии: React + TypeScript + Vite + Redux-toolkit + React-router-dom 
+UI билиотеки: Next UI + recharts 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Удалось реализовать:
+- Приятный и адаптивный графический интрефейс на Next UI
+- Переключение между светлой и тёмной темами(через Next UI)
+- Смена языка интерфейса(Английский/Русский)
+- Роутинг для всех трёх страниц - ``` / , /designer , /tasks ```
+- Запрос и получение данных с сервера в store(Redux-toolkit) по ссылке, что в ТЗ
+- Созданы и используются функции сортировки всех данных:
+Так на главной две колонки, где в одной отображаются 10 последних комментариев, а во второй топ 10 по эффективности дизайнеров.
+- Реализованы алгоритмы подсчёта затрат и задач. Отображение этих данных происходит на графиках из recharts на странице /tasks
+- На странице /designer есть фильтры отображения по алфавиту и возможность сопртировки дизайнеров по статусу задач: In Progress / Done
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
+## Сборка сайта на вашем пк
+Порядок действий:
+- Установить node.js 20й версии
+- Клонировать этот репозиторий
+- Удалить package-lock.json
+- Открыть консоль, перейти в клонированную директорию и запустить:
 ```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+npm install
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- команда для сборки(сохранение идёт в папку dist):
+```js
+npm run build
+```
