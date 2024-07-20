@@ -34,6 +34,7 @@ function Dsgner({adoutDesigner, done, inProgress}: {adoutDesigner: designerType,
 
 export default function DesignerPage(){
     const dispatch = useDispatch();
+    const language = useSelector(state => state.language);
     const desingerArray = useSelector(state => state.designer);
     const [desingers, setDesingers] = useState<Array<designerType>>([]);
     //const [render, setRender] = useState<boolean>(false); //мини костыль, чтобы отображать дизанеров только после всех сортировок и не тратить ресурсы на кучу пререндеров, пока все сортировки меняют desingers на такой же, но отсортированный
@@ -57,7 +58,7 @@ export default function DesignerPage(){
         setDesingers(desingers.sort((a, b) => a.email.localeCompare(b.email)));                                                                                       //Запрос к YaGPT: Есть массив объектов, каждый из которых имеет такой формат: {avatar: 'url', username: 'name', email: 'mail', thumbnails: {…}, issues: Array(15)}. Напиши функцию на JavaScript, которая будет возвращать этот же массив, но отсортированный с почтами по алфавиту
     }
     return(<main className="designersPage">
-        <h1 className="title">Все дизайнеры</h1>
+        <h1 className="title">{`${language === "Русский" ? 'Все дизайнеры' : 'All designers'}`}</h1>
         <div className="settings">
             <div className="sorting">
                 <p className="designer__title">cортировка:</p>

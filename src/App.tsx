@@ -111,10 +111,10 @@ function App() {
       </main>
       <Footer/>
       <Link to={{pathname: '/tasks'}} className="surface-button">
-        <Button size="lg" className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg">Страница задач</Button>
+        <Button size="lg" className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg">{`${language === "Русский" ? 'Страница задач' : 'Issues page'}`}</Button>
       </Link>
       <Link to={{pathname: '/designer'}} className="surface-button-2">
-        <Button size="lg" className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg">Страница дизайнеров</Button>
+        <Button size="lg" className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg">{`${language === "Русский" ? 'Страница дизайнеров' : 'Designers page'}`}</Button>
       </Link>
     </>
   )
