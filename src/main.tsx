@@ -7,6 +7,8 @@ import './index.css';
 import {createBrowserRouter, RouterProvider } from 'react-router-dom';
 import TasksPage from './pages/tasks-page/tasks-page.tsx';
 import DesignerPage from './pages/designer-page/designer-page.tsx';
+import { Provider } from 'react-redux';
+import { store } from './services/store.ts';
 
 const router = createBrowserRouter([
   {
@@ -27,7 +29,9 @@ ReactDOM.createRoot(document.querySelector('#root')!).render(
   <React.StrictMode>
     <NextUIProvider>
       <ThemeProvider attribute="class" defaultTheme="dark">
-        <RouterProvider router={router} />
+        <Provider store={store}>
+          <RouterProvider router={router} />
+        </Provider>
       </ThemeProvider>
     </NextUIProvider>
   </React.StrictMode>,

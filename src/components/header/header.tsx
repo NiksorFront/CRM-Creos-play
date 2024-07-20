@@ -1,23 +1,22 @@
-import { Button, Switch } from "@nextui-org/react"
-import { useTheme } from "next-themes"
-import { useState } from "react"
+import { Button, Switch } from "@nextui-org/react";
+import { useTheme } from "next-themes";
 import {MoonIcon} from "./MoonIcon";
 import {SunIcon} from "./SunIcon";
 import numberWorkingWeek from "../../utils/workingWeek";
+import { useDispatch, useSelector } from "../../utils/redux-types";
+import { changeLanguage } from "../../services/slices/languageSlice";
 
 export default function Header(){
-    // const [mounted, setMounted] = useState(false);
-    const [language, setLanguage] = useState("Русский");
+    const language = useSelector((state) => state.language);
+    const dispatch = useDispatch();
     const {theme, setTheme} = useTheme();
 
-    // if(!mounted) return null
-
     return(<header className="header">
-        <Button variant="faded" onClick={() => language ==="Русский" ? setLanguage("English") : setLanguage("Русский")}>
+        <Button variant="faded" onClick={() => dispatch(changeLanguage())}>
             {language}
         </Button> 
 
-        <p className="text">{language ==="Русский" ? `${numberWorkingWeek()} Рабочая неделя` : `${numberWorkingWeek()} Working week`}</p>
+        <p className="header__text">{`${numberWorkingWeek()} ${language ==="Русский" ? "Рабочая неделя" : "Working week"}`}</p>
 
         <Switch
             defaultSelected
@@ -25,7 +24,7 @@ export default function Header(){
             color="success"
             thumbIcon={() => theme === "dark" ? <MoonIcon /> : <SunIcon />}
             onValueChange={() => theme === "dark" ? setTheme('light') : setTheme('dark')}
-            >
+        >
         </Switch>
     </header>)
 }

@@ -8,11 +8,12 @@ import Comment from "./components/comment/comment";
 import Designer from './components/designer/designer';
 import { Button } from '@nextui-org/react';
 import { Link } from 'react-router-dom';
+import { useSelector } from './utils/redux-types';
 
 type DesignerType = [string, Array<number>]
 
 function App() {
-  //const [language, setLanguage] = useState("Русский");
+  const language = useSelector(state => state.language);
   const [comments, setComments] = useState<Array<commentType>>([]);
   //const [desingers, setDesingers] = useState<Array<designerType>>([]);
   const [issues, setIssues] = useState<Array<issueType>>([]);
@@ -103,11 +104,11 @@ function App() {
       <Header/>
       <main className="comment-and-design">
         <section className='column'>
-          <h1 className='title'>10 комментариев</h1>
+          <h1 className='title'>{`10 ${language === "Русский" ? 'комментариев' : 'comments'}`}</h1>
           {comments && sortLastComments(10).map((cmnt: [string, commentType], i) => i<10 && <Comment key={i} comment={cmnt}/>)}
         </section>
         <section className='column'>
-          <h1 className='title'>10 дизайнеров</h1> 
+          <h1 className='title'>{`10 ${language === "Русский" ? 'дизайнеров' : 'designers'}`}</h1> 
           {issues && sortTopDesigners(10).map((designer: DesignerType, i) => <Designer key={i} username={designer[0]} averageTime={designer[1][0]} numIssue={designer[1][1]}/>)}
         </section>
       </main>

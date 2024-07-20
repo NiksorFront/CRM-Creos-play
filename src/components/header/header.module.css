@@ -4,3 +4,7 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.header__text{
+    font-size: clamp(10px, 2vw, 25px);
+}
