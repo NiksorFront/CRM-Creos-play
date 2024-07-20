@@ -20,7 +20,7 @@ export const designerSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (build) => {
-        build.addCase(requestDesigners.pending, () => console.log("Ждём список дизайнеров")),          //Загрузка
+        build.addCase(requestDesigners.pending, () => console.log("Ждём список дизайнеров")),          /*Загрузка началась*/ //@ts-ignore
         build.addCase(requestDesigners.fulfilled, (state, action) => state = action.payload.results),  //Компоненты получены
         build.addCase(requestDesigners.rejected, () => console.log("Ошибка получения данных"))         //Компоненты не получены
     }

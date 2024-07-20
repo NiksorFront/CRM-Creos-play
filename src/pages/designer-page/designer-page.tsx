@@ -1,7 +1,6 @@
 import { Avatar, Button, Checkbox, Tab, Tabs } from "@nextui-org/react";
 import { Key, useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import request from "../../utils/API";
 import { designerType } from "../../utils/types";
 import { useDispatch, useSelector } from "../../utils/redux-types";
 import { requestDesigners } from "../../services/slices/designerSlice";
